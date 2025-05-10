@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANTENIMIENTO DEL SALON DEL REINO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>MANTENIMIENTO DEL SALON DEL REINO</h1>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="people-management">
+                <h2>Gestión de Personas</h2>
+                <form id="personForm">
+                    <input type="hidden" id="editingPersonId">
+                    <div class="form-group">
+                        <label for="personName">Nombres:</label>
+                        <input type="text" id="personName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="personPhone">Teléfono:</label>
+                        <input type="tel" id="personPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="personCongregation">Congregación:</label>
+                        <input type="text" id="personCongregation">
+                    </div>
+                    <div class="form-group">
+                        <label for="personA2">A2 (Auxiliar/Otro):</label>
+                        <input type="text" id="personA2">
+                    </div>
+                    <button type="submit" class="btn btn-add-person">Agregar/Actualizar Persona</button>
+                </form>
+                <div id="peopleListTableContainer">
+                    <h3>Listado de Personas</h3>
+                    <table id="peopleTable">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Teléfono</th>
+                                <th>Congregación</th>
+                                <th>A2</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Las personas se insertarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="calendar-container">
+                <h2>Calendario de Tareas</h2>
+                <div class="calendar-nav">
+                    <button id="prevMonthBtn">&lt; Anterior</button>
+                    <span id="currentMonthYear"></span>
+                    <button id="nextMonthBtn">Siguiente &gt;</button>
+                </div>
+                <table id="taskCalendar">
+                    <thead>
+                        <tr><th>Dom</th><th>Lun</th><th>Mar</th><th>Mié</th><th>Jue</th><th>Vie</th><th>Sáb</th></tr>
+                    </thead>
+                    <tbody>
+                        <!-- El calendario se generará aquí -->
+                    </tbody>
+                </table>
+                 <div id="calendarTaskDetails"></div>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="form-container">
+                <h2>Programar Nueva Tarea / Editar Tarea</h2>
+                <form id="taskForm">
+                    <input type="hidden" id="editingTaskId">
+
+                    <div class="form-group">
+                        <label for="taskName">Nombre de la Tarea:</label>
+                        <input type="text" id="taskName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDeadline">Fecha Límite:</label>
+                        <input type="date" id="taskDeadline" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskRepetition">Periodo de Repetición:</label>
+                        <select id="taskRepetition">
+                            <option value="diario">Diario</option>
+                            <option value="semanal">Semanal</option>
+                            <option value="quincenal">Quincenal</option>
+                            <option value="mensual">Mensual</option>
+                            <option value="trimestral">Trimestral</option>
+                            <option value="semestral">Semestral</option>
+                            <option value="anual">Anual</option>
+                            <option value="unico">Única vez</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskResponsible">Encargado:</label>
+                        <select id="taskResponsible" required>
+                            <option value="">-- Seleccionar Encargado --</option>
+                            <!-- Opciones de personas se cargarán aquí -->
+                        </select>
+                        <div id="responsibleDetails" class="person-details-tooltip"></div>
+                    </div>
+
+                    <div class="form-group dynamic-list-group">
+                        <label>Colaboradores:</label>
+                        <div class="input-with-button">
+                            <select id="collaboratorToAdd">
+                                <option value="">-- Seleccionar Colaborador --</option>
+                            </select>
+                            <button type="button" id="addCollaboratorBtn" class="btn-add-item">Añadir</button>
+                        </div>
+                        <ul id="collaboratorsList" class="dynamic-list"></ul>
+                        <div id="collaboratorDetails" class="person-details-tooltip"></div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="taskInstructions">Instrucciones:</label>
+                        <textarea id="taskInstructions" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Documentos:</label>
+                        <div>
+                            <label for="taskDocumentLink">Enlace a Documento:</label>
+                            <input type="url" id="taskDocumentLink" placeholder="https://ejemplo.com/documento">
+                        </div>
+                        <div style="margin-top: 5px;">
+                            <label for="taskDocumentFile">Adjuntar Fichero (solo nombre):</label>
+                            <input type="file" id="taskDocumentFile">
+                            <small>Nota: Solo se guardará el nombre del archivo.</small>
+                        </div>
+                         <ul id="taskDocumentsList" class="dynamic-list">
+                         </ul>
+                    </div>
+
+                    <div class="form-group dynamic-list-group">
+                        <label>Insumos Necesarios:</label>
+                        <div class="input-with-button">
+                            <input type="text" id="supplyToAdd" placeholder="Ej: Bombillo LED">
+                            <button type="button" id="addSupplyBtn" class="btn-add-item">Añadir</button>
+                        </div>
+                        <ul id="suppliesList" class="dynamic-list"></ul>
+                    </div>
+
+                    <div class="form-group dynamic-list-group">
+                        <label>Herramientas Necesarias:</label>
+                        <div class="input-with-button">
+                            <input type="text" id="toolToAdd" placeholder="Ej: Destornillador">
+                            <button type="button" id="addToolBtn" class="btn-add-item">Añadir</button>
+                        </div>
+                        <ul id="toolsList" class="dynamic-list"></ul>
+                    </div>
+
+                    <button type="submit" class="btn btn-submit-task">Guardar Tarea</button>
+                    <button type="button" id="clearFormBtn" class="btn btn-clear">Limpiar Formulario</button>
+                </form>
+            </div>
+
+            <div class="tasks-container">
+                <h2>Todas las Tareas Guardadas (Gestión y Edición)</h2>
+                <div id="taskList">
+                    <p>No hay tareas programadas todavía.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="gantt-container">
+            <h2>Línea de Tiempo de Tareas (Próximas)</h2>
+            <div id="ganttChart">
+                <p>Cargando línea de tiempo...</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="people.js"></script>
+    <script src="calendar.js"></script>
+    <script src="gantt.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
